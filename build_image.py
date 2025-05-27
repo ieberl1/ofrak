@@ -288,6 +288,8 @@ def create_dockerfile_finish(config: OfrakImageConfig) -> str:
         + ["\\n"]
     )
     dockerfile_finish_parts.append(f'RUN printf "{finish_makefile}" >> Makefile\n')
+    # Hardcode accepting the license
+    dockerfile_finish_parts.append('RUN /bin/bash -c \'echo -e \"1\\nI agree\" | ofrak license\'\n')
     if config.entrypoint is not None:
         dockerfile_finish_parts.append('SHELL ["/bin/bash", "-c"]\n')
         dockerfile_finish_parts.append(f"ENTRYPOINT {config.entrypoint}")
